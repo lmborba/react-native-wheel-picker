@@ -27,6 +27,7 @@ public class ReactWheelCurvedPicker extends WheelCurvedPicker {
 
     private final EventDispatcher mEventDispatcher;
     private List<Integer> mValueData;
+    private int currentValue;
 
     public ReactWheelCurvedPicker(ReactContext reactContext) {
         super(reactContext);
@@ -39,8 +40,9 @@ public class ReactWheelCurvedPicker extends WheelCurvedPicker {
             @Override
             public void onWheelSelected(int index, String data) {
                 if (mValueData != null && index < mValueData.size()) {
-                    mEventDispatcher.dispatchEvent(
-                            new ItemSelectedEvent(getId(), mValueData.get(index)));
+		    currentValue = mValueData.get(index);
+                    mEventDispatcher.dispatchEvent(new ItemSelectedEvent(getId(), currentValue));
+		    
                 }
             }
 
@@ -75,6 +77,10 @@ public class ReactWheelCurvedPicker extends WheelCurvedPicker {
         mValueData = data;
     }
 
+    public int value() {
+	return currentValue;
+    }
+
     public int getState() {
         return state;
     }
@@ -107,3 +113,4 @@ class ItemSelectedEvent extends Event<ItemSelectedEvent> {
         return eventData;
     }
 }
+
