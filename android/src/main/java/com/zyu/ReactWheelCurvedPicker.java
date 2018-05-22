@@ -27,6 +27,7 @@ public class ReactWheelCurvedPicker extends WheelCurvedPicker {
 
     private final EventDispatcher mEventDispatcher;
     private List<Integer> mValueData;
+    private int selectedLineColor;
     private int currentValue;
 
     public ReactWheelCurvedPicker(ReactContext reactContext) {
@@ -42,7 +43,6 @@ public class ReactWheelCurvedPicker extends WheelCurvedPicker {
                 if (mValueData != null && index < mValueData.size()) {
 		    currentValue = mValueData.get(index);
                     mEventDispatcher.dispatchEvent(new ItemSelectedEvent(getId(), currentValue));
-		    
                 }
             }
 
@@ -57,9 +57,9 @@ public class ReactWheelCurvedPicker extends WheelCurvedPicker {
         super.drawForeground(canvas);
 
         Paint paint = new Paint();
-        paint.setColor(Color.WHITE);
-        int colorFrom = 0x00FFFFFF;//Color.BLACK;
-        int colorTo = Color.WHITE;
+        paint.setColor(selectedLineColor);
+        int colorTo = selectedLineColor;
+        int colorFrom = Color.TRANSPARENT;
         LinearGradient linearGradientShader = new LinearGradient(rectCurItem.left, rectCurItem.top, rectCurItem.right/2, rectCurItem.top, colorFrom, colorTo, Shader.TileMode.MIRROR);
         paint.setShader(linearGradientShader);
         canvas.drawLine(rectCurItem.left, rectCurItem.top, rectCurItem.right, rectCurItem.top, paint);
@@ -71,6 +71,11 @@ public class ReactWheelCurvedPicker extends WheelCurvedPicker {
         super.setItemIndex(index);
         unitDeltaTotal = 0;
 		mHandler.post(this);
+    }
+
+    public void setSelectedLineColor(int selectedLineColor) {
+        this.selectedLineColor = selectedLineColor;
+        invalidate();
     }
 
     public void setValueData(List<Integer> data) {
@@ -113,4 +118,3 @@ class ItemSelectedEvent extends Event<ItemSelectedEvent> {
         return eventData;
     }
 }
-

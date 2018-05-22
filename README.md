@@ -92,6 +92,7 @@ export default class App extends Component<{}> {
 				</Text>
 				<Picker style={{width: 150, height: 180}}
 					selectedValue={this.state.selectedItem}
+					selectedLineColor={"black"}					
 					itemStyle={{color:"white", fontSize:26}}
 					onValueChange={(index) => this.onPickerSelect(index)}>
 						{this.state.itemList.map((value, i) => (
